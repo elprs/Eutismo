@@ -1,10 +1,7 @@
 {
-  "cleanUrls": true,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
   "trailingSlash": true,
-  "rewrites": [
-    { "source": "/teacher", "destination": "/teacher/" },
-    { "source": "/display", "destination": "/display/" }
-  ],
   "headers": [
     {
       "source": "/(.*)",

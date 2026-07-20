@@ -1,365 +1,102 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teacher Control</title>
-<style>
-:root{--bg:#f3f6f8;--panel:#fff;--text:#1f2937;--muted:#667085;--line:#d8dee8;--accent:#3567d6;--action-bg:#edf4ff;--action-bg-strong:#dbe9ff;--action-border:#b9cdf5;--action-text:#244f9e;--selected:#315fb8;--selected-ring:rgba(49,95,184,.18);--danger:#b42318;--success-bg:#e8f7ee;--success-border:#86c79e;--success-text:#176b3a;--disabled-bg:#eef1f4;--disabled-text:#98a2b3;--shadow:0 8px 24px rgba(31,41,55,.08)}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}.top{position:sticky;top:0;z-index:5;background:white;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:950}.status{font-weight:850;color:var(--accent)}.wrap{max-width:1040px;margin:auto;padding:18px}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}.tab,.btn{border:1px solid var(--action-border);background:var(--action-bg);color:var(--action-text);border-radius:10px;padding:10px 12px;font-weight:850;cursor:pointer;transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .05s ease}.tab:hover,.btn:hover{background:var(--action-bg-strong)}.tab:focus-visible,.btn:focus-visible{outline:3px solid #7aa2ea;outline-offset:2px}.tab:active,.btn:active{transform:translateY(1px);background:#c9dbf7;border-color:#86a8df}.tab.ack,.btn.ack{background:#c6daf8!important;border-color:#7399d7!important;color:#163d76!important;box-shadow:inset 0 2px 4px rgba(20,50,90,.16)!important;transform:translateY(2px)}.btn.success{background:var(--success-bg)!important;border-color:var(--success-border)!important;color:var(--success-text)!important;box-shadow:0 0 0 3px rgba(23,107,58,.10)!important}.btn:disabled,.tab:disabled{background:var(--disabled-bg)!important;border-color:#d8dee8!important;color:var(--disabled-text)!important;cursor:not-allowed;box-shadow:none!important;transform:none!important}.btn.primary{background:var(--action-bg-strong);color:#1f4f9c;border-color:#91b2eb}.btn.primary:hover{background:#cbdfff}.tab.active{background:var(--selected);color:white;border-color:var(--selected);box-shadow:0 0 0 3px var(--selected-ring)}.tab.active::before{content:"✓ ";font-weight:950}.btn.danger{background:#fff5f4;border-color:#efc7c3;color:var(--danger)}.btn.danger:hover{background:#fee9e7}.btn.selected{background:var(--selected);color:#fff;border-color:var(--selected);box-shadow:0 0 0 3px var(--selected-ring)}.btn.selected::before,.btn[aria-pressed="true"]::before{content:"✓ ";font-weight:950}.btn[aria-pressed="true"]{background:var(--selected);color:#fff;border-color:var(--selected);box-shadow:0 0 0 3px var(--selected-ring)}.panel{display:none}.panel.active{display:block}.card{background:white;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.label{font-size:.78rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.value{font-size:1.6rem;font-weight:950;margin:3px 0}.field{margin:10px 0}.field label{display:block;font-weight:850;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff}.group-editor{border:1px solid var(--line);border-radius:12px;padding:12px;position:relative}.group-swatch{height:8px;border-radius:999px;margin-bottom:8px}.group-delete{position:absolute;right:9px;top:15px;border:0;background:#fff5f4;color:var(--danger);border-radius:8px;padding:5px 9px;font-weight:950;cursor:pointer}.mode-buttons .btn{min-width:210px}.schedule-head,.schedule-row{display:grid;grid-template-columns:90px minmax(0,1fr) 100px 45px;gap:8px;align-items:center}.schedule-head{font-size:.75rem;color:var(--muted);font-weight:900;text-transform:uppercase}.schedule-row{margin:8px 0}.schedule-row input{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px}.remove{height:40px;border:1px solid #efc7c3;border-radius:8px;background:#fff5f4;color:var(--danger);font-weight:950}.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lib-card{display:grid;grid-template-columns:74px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px}.thumb{width:74px;height:62px;border-radius:9px;overflow:hidden;background:#e8efff;display:grid;place-items:center;font-size:2rem}.thumb img{width:100%;height:100%;object-fit:cover}.small{color:var(--muted);font-size:.88rem}.audio-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:11px;margin:9px 0}.audio-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #edf0f4}.switch-row:last-child{border-bottom:0}.switch-row input[type=checkbox]{appearance:none;-webkit-appearance:none;width:64px;height:34px;border:1px solid var(--action-border);border-radius:999px;background:var(--action-bg);position:relative;cursor:pointer;transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .05s ease;flex:0 0 auto}.switch-row input[type=checkbox]::before{content:"OFF";position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:.68rem;font-weight:950;color:var(--action-text)}.switch-row input[type=checkbox]::after{content:"";position:absolute;right:4px;top:4px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(31,41,55,.22);transition:transform .16s ease}.switch-row input[type=checkbox]:hover{background:var(--action-bg-strong)}.switch-row input[type=checkbox]:active{transform:translateY(1px);background:#c9dbf7}.switch-row input[type=checkbox]:checked{background:var(--selected);border-color:var(--selected);box-shadow:0 0 0 3px var(--selected-ring)}.switch-row input[type=checkbox]:checked::before{content:"ON";left:auto;right:9px;color:#fff}.switch-row input[type=checkbox]:checked::after{transform:translateX(-30px)}.switch-row input[type=checkbox]:focus-visible{outline:3px solid #7aa2ea;outline-offset:2px}.range-line{display:grid;grid-template-columns:150px 1fr 48px;gap:10px;align-items:center;margin:10px 0}.notice{background:#fff8df;border:1px solid #eadc9c;border-radius:10px;padding:10px;color:#5b4a00;font-size:.88rem}.audio-status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 4px}.audio-status-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#f8fafc}.audio-status-name{font-size:.75rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.audio-status-value{margin-top:3px;font-weight:950}.audio-status-card.ready{background:#edf8f1;border-color:#9fd0ad}.audio-status-card.ready .audio-status-value{color:#176b3a}.audio-status-card.muted{background:#fff7e8;border-color:#e7c783}.audio-status-card.muted .audio-status-value{color:#805b00}.audio-status-card.off{background:#f3f4f6;border-color:#d8dee8}.audio-status-card.off .audio-status-value{color:#667085}.footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.weekly-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.weekly-card{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}.weekly-card.today{border-color:#86a8df;box-shadow:0 0 0 3px rgba(49,95,184,.10)}.weekly-card.loaded{background:#f4f8ff}.weekly-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:1.1rem;font-weight:950}.weekly-meta{margin:6px 0 10px;color:var(--muted);font-size:.88rem}.weekly-actions{display:flex;gap:7px;flex-wrap:wrap}.copy-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}.copy-row select{padding:9px;border:1px solid var(--line);border-radius:9px;background:#fff}@media(max-width:700px){.weekly-grid{grid-template-columns:1fr}}@media(max-width:700px){.grid,.library,.controls{grid-template-columns:1fr}.schedule-head,.schedule-row{grid-template-columns:80px 1fr 45px}.schedule-head span:nth-child(3),.schedule-row label{display:none}}
-</style></head><body>
-<header class="top"><div class="brand">Teacher Control</div><div class="status" id="connectionStatus">Display not opened</div></header><main class="wrap">
-<div class="tabs"><button class="tab active" data-panel="live">Live Controls</button><button class="tab" data-panel="schedule">Today’s Schedule</button><button class="tab" data-panel="weekly">Weekly Schedules</button><button class="tab" data-panel="library">Activities & Pictures</button><button class="tab" data-panel="audio">Audio</button></div>
-<section class="panel active" id="live"><div class="card"><div class="label">Operating mode</div><div class="value" id="modeText"></div><div class="small" id="modeNote"></div><div class="footer-actions mode-buttons"><button class="btn primary" id="openDisplay">Open Classroom Display</button><button class="btn" id="startBeginning">Start Day from Beginning</button><button class="btn" id="followClock">Follow Schedule Real Time – Automatic</button></div></div><div class="grid"><div class="card"><div class="label">Current activity</div><div class="value" id="currentText"></div><div id="timerText"></div></div><div class="card"><div class="label">Next activity</div><div class="value" id="nextText"></div></div></div><div class="card"><div class="controls"><button class="btn" id="pause">Pause</button><button class="btn" id="minus">−1 Minute</button><button class="btn" id="plus">+1 Minute</button><button class="btn primary" id="next">Start Next Activity</button><button class="btn danger" id="skip">Skip Activity</button><div><input id="setMinutes" type="number" min="1" value="15" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:9px"><button class="btn" id="setTime" style="width:100%;margin-top:6px">Set Remaining Time</button></div></div></div><div class="card"><div class="label">Immediate classroom sound control</div><div class="small" id="liveAudioNote">Classroom audio is off.</div><div class="footer-actions"><button class="btn" id="silenceAudio">Silence Audio Now</button><button class="btn" id="stopAudioLive">Stop Current Audio</button></div></div><div class="card"><div class="label">Groups, assigned adults and places</div><div class="small">Add or remove groups as needed. Maximum: 6 groups. Colors are assigned automatically.</div><div class="grid" id="groupFields"></div><div class="footer-actions"><button class="btn" id="addGroup">+ Add Group</button><button class="btn primary" id="saveGroups">Update Display</button></div></div></section>
-<section class="panel" id="schedule"><div class="card"><div class="small">Edit the day, then save. The classroom display updates immediately.</div><div class="schedule-head"><span>Time</span><span>Activity</span><span>Picture</span><span></span></div><div id="scheduleRows"></div><div class="footer-actions"><button class="btn" id="addRow">+ Add Activity</button><button class="btn primary" id="saveSchedule">Save Schedule</button></div></div></section>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f4f78" />
+  <title>Classroom Schedule</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #17324d;
+      background: #f5f8fb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    main {
+      width: min(900px, 100%);
+      background: #fff;
+      border: 1px solid #d7e1ea;
+      border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(35, 67, 96, .12);
+      padding: clamp(28px, 5vw, 52px);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #54718d;
+    }
+    h1 { margin: 0; font-size: clamp(2rem, 6vw, 4rem); line-height: 1; }
+    .intro { max-width: 680px; font-size: 1.1rem; line-height: 1.6; color: #425d76; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 34px; }
+    .card {
+      border: 1px solid #cbd9e5;
+      border-radius: 18px;
+      padding: 24px;
+      background: #fafdff;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.45rem; }
+    .card p { min-height: 72px; margin: 0 0 20px; line-height: 1.55; color: #4b657c; }
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      border-radius: 12px;
+      border: 2px solid #306a98;
+      background: #eaf4fc;
+      color: #163c5d;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .12s ease, background .12s ease;
+    }
+    a.button:hover { background: #dceefa; }
+    a.button:active { transform: translateY(2px); background: #c9e3f6; }
+    a.button:focus-visible { outline: 4px solid #f0b84a; outline-offset: 3px; }
+    .note {
+      margin: 28px 0 0;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #eef5fb;
+      color: #425d76;
+      line-height: 1.5;
+    }
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; }
+      .card p { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Classroom Pilot</p>
+    <h1>Visual Classroom Schedule</h1>
+    <p class="intro">Open the teacher controls on the instructor device, then launch the classroom display on the smartboard, projector, or second screen.</p>
 
-<section class="panel" id="weekly">
-  <div class="card">
-    <div class="label">Weekly schedule library</div>
-    <div class="value" id="weeklyHeading">Saved weekday schedules</div>
-    <div class="notice" id="weeklyNotice">Changes made in Today’s Schedule affect the working day only. A saved weekday changes only when you explicitly save to it.</div>
-    <div class="footer-actions"><button class="btn primary" id="loadTodayTemplate">Load Today’s Saved Schedule</button><button class="btn" id="saveCurrentToToday">Save Current Schedule to Today</button></div>
-  </div>
-  <div class="weekly-grid" id="weeklyGrid"></div>
-</section>
-<section class="panel" id="library"><div class="card"><div class="small">Upload a classroom photo or visual once. It will be reused everywhere that activity appears.</div><div class="library" id="libraryGrid"></div></div></section>
+    <section class="grid" aria-label="Application pages">
+      <article class="card">
+        <h2>Teacher Control</h2>
+        <p>Edit schedules, groups, pictures, timing, audio, and weekly templates.</p>
+        <a class="button" href="/teacher/">Open Teacher Control</a>
+      </article>
+      <article class="card">
+        <h2>Classroom Display</h2>
+        <p>Student-facing NOW, groups, NEXT, timer, pictures, and daily schedule.</p>
+        <a class="button" href="/display/">Open Classroom Display</a>
+      </article>
+    </section>
 
-<section class="panel" id="audio">
-  <div class="card">
-    <div class="label">Classroom audio</div>
-    <div class="notice" style="margin:8px 0 12px">All audio starts OFF. Turn Classroom Audio ON only when sound is appropriate for the class. Browsers require one teacher click before audio can play.</div>
-    <div class="audio-status-grid" style="grid-template-columns:1fr"><div class="audio-status-card off" id="audioSystemStatus"><div class="audio-status-name">Classroom audio</div><div class="audio-status-value" id="audioSystemValue">OFF</div></div></div>
-    <div class="footer-actions"><button class="btn primary" id="enableAudio">Turn Classroom Audio ON</button><button class="btn" id="stopAudio">Stop Current Audio</button></div>
-  </div>
-  <div class="card">
-    <div class="label">1. Activity-start cue</div>
-    <div class="switch-row"><div><strong>Play start-of-activity sound</strong><div class="small">Plays one gentle bubbly cue when a new activity begins.</div></div><input type="checkbox" id="activityStartEnabled"></div>
-    <div class="footer-actions"><button class="btn" id="previewStartCue">Preview Activity-Start Cue</button></div>
-  </div>
-  <div class="card">
-    <div class="label">2. Transition-start cue</div>
-    <div class="switch-row"><div><strong>Play transition-start sound</strong><div class="small">Plays one gentle lower-tone cue when CLEAN UP AND MOVE begins.</div></div><input type="checkbox" id="transitionEnabled"></div>
-    <div class="field"><label>Transition time (minutes)</label><input type="number" id="transitionMinutes" min="0" max="15" step="1" value="3"><div class="small">Default: 3 minutes. Choose 0 to remove the transition phase.</div></div>
-    <div class="field"><label>Transition message shown on display</label><input id="transitionMessage" value="CLEAN UP AND MOVE"></div>
-    <div class="range-line"><strong>Cue volume</strong><input type="range" id="cueVolume" min="0" max="1" step="0.05"><span id="cueVolumeText"></span></div>
-    <div class="field"><label>Custom transition-start sound</label><input type="file" id="transitionFile" accept="audio/*"></div>
-    <div class="field"><label>Or direct audio-file link</label><input id="transitionUrl" placeholder="https://example.org/sound.mp3"></div>
-    <div class="small">The default cue is synthesized inside the application. A custom uploaded sound replaces only the transition-start cue.</div>
-    <div class="footer-actions"><button class="btn" id="previewCue">Preview Transition-Start Cue</button><button class="btn" id="clearCue">Restore Default Transition Sound</button></div>
-  </div>
-  <div class="card">
-    <div class="label">3. Activity music and audio</div>
-    <div class="small">Optional background audio is separate from the two short cues. A default activity-music track is included. Teachers can preview it, replace it with an upload, or use a direct audio-file link.</div>
-    <div class="switch-row"><div><strong>Automatically play enabled activity music</strong><div class="small">Starts the selected activity’s music after its start cue.</div></div><input type="checkbox" id="autoPlayActivity"></div>
-    <div class="switch-row"><div><strong>Loop activity music</strong><div class="small">Repeats the selected activity-music track until paused, stopped, transition begins, or the next activity starts.</div></div><input type="checkbox" id="loopActivity"></div>
-    <div class="range-line"><strong>Music volume</strong><input type="range" id="musicVolume" min="0" max="1" step="0.05"><span id="musicVolumeText"></span></div>
-    <div id="audioLibrary"></div>
-  </div>
-</section>
-</main><script src="app-core.js"></script><script>
-const C=window.ClassScheduleCore;
-let state=C.loadState(),displayWindow=null,channel=null;
-state.audioSettings.transitionRepeat=false;delete state.audioSettings.transitionRepeatSeconds;
-try{channel=new BroadcastChannel(C.CHANNEL_NAME)}catch(e){}
-const $=id=>document.getElementById(id);
-
-let musicAudio=null,cueAudio=null,musicObjectUrl=null,cueObjectUrl=null,audioContext=null,audioPlaybackGeneration=0;
-let lastAudioIndex=null,lastAudioRemaining=null,lastPaused=state.paused,lastInTransition=false,autoAdvanceBusy=false,manualAdvanceTimer=null;
-const GROUP_COLORS=[
-  {bg:'#dcecff',border:'#9fc2ec',text:'#17365f'},
-  {bg:'#f9dddd',border:'#e7b1b1',text:'#672525'},
-  {bg:'#fff3bd',border:'#e4d17b',text:'#55450a'},
-  {bg:'#dff3e5',border:'#a9d5b7',text:'#20552f'},
-  {bg:'#eadff7',border:'#c8afe5',text:'#4b2b68'},
-  {bg:'#f8e5d2',border:'#e6bd93',text:'#68401c'}
-];
-const transitionFileKey='transition-cue';
-const activityFileKey=title=>`activity:${title}`;
-
-function broadcast(){
-  C.saveState(state);
-  try{channel?.postMessage({type:'state',state})}catch(e){}
-  try{if(displayWindow&&!displayWindow.closed)displayWindow.postMessage({type:'class-schedule-state',state},'*')}catch(e){}
-  scheduleManualAdvance();
-  render();
-}
-function startManual(index,duration){
-  state.mode='manual';state.currentIndex=Math.max(0,Math.min(index,state.schedule.length-1));
-  state.manualDurationSeconds=Math.max(60,duration??C.durationForIndex(state,state.currentIndex));
-  state.manualStartedAt=new Date().toISOString();state.paused=false;state.pausedRemainingSeconds=null;
-}
-function uniqueActivities(){const seen=new Set();return state.schedule.filter(x=>!seen.has(x.title)&&seen.add(x.title))}
-let builtInActivityNodes=[],builtInLoopTimer=null,builtInCurrentTitle=null;
-function stopBuiltInActivity(){clearTimeout(builtInLoopTimer);builtInLoopTimer=null;builtInCurrentTitle=null;builtInActivityNodes.forEach(node=>{try{node.stop()}catch(e){}});builtInActivityNodes=[]}
-function stopElement(audio){if(audio){audio.pause();audio.currentTime=0}}
-function stopAllAudio(){audioPlaybackGeneration++;stopElement(musicAudio);stopElement(cueAudio);musicAudio=null;cueAudio=null;if(musicObjectUrl){URL.revokeObjectURL(musicObjectUrl);musicObjectUrl=null}if(cueObjectUrl){URL.revokeObjectURL(cueObjectUrl);cueObjectUrl=null}stopBuiltInActivity()}
-function setAudioVolumes(){if(musicAudio){musicAudio.volume=state.audioSettings.musicVolume;musicAudio.muted=state.audioSettings.muted}if(cueAudio){cueAudio.volume=state.audioSettings.cueVolume;cueAudio.muted=state.audioSettings.muted}}
-async function sourceFor(key,url){
-  try{const blob=await C.getAudioFile(key);if(blob){const objectUrl=URL.createObjectURL(blob);return {src:objectUrl,objectUrl}}}catch(e){console.warn(e)}
-  if(url?.trim())return {src:url.trim(),objectUrl:null};
-  return null;
-}
-function builtInActivitySound(title){
-  if(!audioContext)audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  stopBuiltInActivity();
-  // Original 60-second calm focus tune synthesized in-browser. No samples or
-  // third-party recording are embedded. The title only selects a subtle key.
-  const hash=[...title].reduce((a,c)=>a+c.charCodeAt(0),0);
-  const roots=[196,220,246.94,261.63];
-  const root=roots[hash%roots.length];
-  const ratios=[1,1.25,1.5,1.25,1.125,1.5,1.3333,1.25,1,1.3333,1.5,1.25,1.125,1.25,1.3333,1];
-  const now=audioContext.currentTime;
-  const step=3.75; // 16 notes across exactly 60 seconds
-  ratios.forEach((ratio,i)=>{
-    const osc=audioContext.createOscillator(),gain=audioContext.createGain();
-    const start=now+i*step,end=Math.min(now+60,start+3.25);
-    osc.type=i%4===0?'sine':'triangle';
-    osc.frequency.setValueAtTime(root*ratio,start);
-    gain.gain.setValueAtTime(.0001,start);
-    gain.gain.exponentialRampToValueAtTime(Math.max(.001,state.audioSettings.musicVolume*.14),start+.35);
-    gain.gain.setValueAtTime(Math.max(.001,state.audioSettings.musicVolume*.11),Math.max(start+.36,end-.65));
-    gain.gain.exponentialRampToValueAtTime(.0001,end);
-    osc.connect(gain);gain.connect(audioContext.destination);osc.start(start);osc.stop(end+.03);builtInActivityNodes.push(osc);
-  });
-  builtInCurrentTitle=title;
-  if(state.audioSettings.loopActivity){builtInLoopTimer=setTimeout(()=>{if(builtInCurrentTitle===title&&state.audioSettings.enabled&&!state.audioSettings.muted)builtInActivitySound(title)},60000)}
-}
-function playActivityStartCue(title){
-  const settings=state.audioSettings;if(!settings.enabled||settings.muted||settings.activityStartEnabled===false)return;
-  if(!audioContext)audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  const now=audioContext.currentTime;
-  // Soft “bubbly” cue: rounded sine tones, modest pitch, slow attack, no sharp edge.
-  const notes=[[392,0,.28],[466.2,.16,.30],[523.3,.34,.34]];
-  notes.forEach(([freq,offset,duration])=>{
-    const osc=audioContext.createOscillator(),gain=audioContext.createGain();
-    const start=now+offset,end=start+duration;
-    osc.type='sine';osc.frequency.setValueAtTime(freq,start);
-    gain.gain.setValueAtTime(.0001,start);
-    gain.gain.exponentialRampToValueAtTime(Math.max(.001,settings.cueVolume*.12),start+.055);
-    gain.gain.exponentialRampToValueAtTime(.0001,end);
-    osc.connect(gain);gain.connect(audioContext.destination);osc.start(start);osc.stop(end+.03);
-  });
-}
-function beginActivityAudio(title,force=false){
-  playActivityStartCue(title);
-  window.setTimeout(()=>playActivityAudio(title,force),460);
-}
-async function playActivityAudio(title,force=false){
-  const generation=++audioPlaybackGeneration;
-  const settings=state.audioSettings,config=state.activityAudio[title]||{};
-  if(!settings.enabled||settings.muted||(!force&&config.musicEnabled!==true)||(!settings.autoPlayActivity&&!force))return;
-  stopElement(musicAudio);if(musicObjectUrl){URL.revokeObjectURL(musicObjectUrl);musicObjectUrl=null}
-  const source=await sourceFor(activityFileKey(title),config.url);
-  if(generation!==audioPlaybackGeneration){if(source?.objectUrl)URL.revokeObjectURL(source.objectUrl);return;}
-  if(!source){builtInActivitySound(title);return;}
-  stopBuiltInActivity();musicObjectUrl=source.objectUrl;musicAudio=new Audio(source.src);musicAudio.volume=settings.musicVolume;musicAudio.loop=!!settings.loopActivity;musicAudio.muted=settings.muted;
-  try{await musicAudio.play()}catch(e){console.warn('Activity audio could not autoplay.',e)}
-}
-function builtinTransitionCue(){
-  if(!audioContext)audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  const now=audioContext.currentTime;
-  // Low, smooth transition cue: two mellow descending sine tones.
-  const notes=[[349.2,0,.38],[293.7,.30,.48]];
-  notes.forEach(([freq,offset,duration])=>{
-    const gain=audioContext.createGain(),osc=audioContext.createOscillator(),start=now+offset,end=start+duration;
-    gain.gain.setValueAtTime(.0001,start);
-    gain.gain.exponentialRampToValueAtTime(Math.max(.001,state.audioSettings.cueVolume*.13),start+.07);
-    gain.gain.exponentialRampToValueAtTime(.0001,end);
-    osc.type='sine';osc.frequency.setValueAtTime(freq,start);osc.connect(gain);gain.connect(audioContext.destination);osc.start(start);osc.stop(end+.03);
-  });
-}
-async function playTransitionCue(force=false){
-  const generation=++audioPlaybackGeneration;
-  const settings=state.audioSettings;if(!settings.enabled||settings.muted||(!settings.transitionEnabled&&!force))return;
-  // Play the built-in cue immediately. IndexedDB lookup can add a noticeable delay,
-  // so only perform it when the teacher has explicitly selected a file or URL.
-  if(!settings.transitionFileName&&!settings.transitionUrl?.trim()){builtinTransitionCue();return}
-  const source=await sourceFor(transitionFileKey,settings.transitionUrl);
-  if(generation!==audioPlaybackGeneration){if(source?.objectUrl)URL.revokeObjectURL(source.objectUrl);return;}
-  if(!source){builtinTransitionCue();return}
-  stopElement(cueAudio);if(cueObjectUrl)URL.revokeObjectURL(cueObjectUrl);
-  cueObjectUrl=source.objectUrl;cueAudio=new Audio(source.src);cueAudio.volume=settings.cueVolume;cueAudio.muted=settings.muted;
-  try{await cueAudio.play()}catch(e){console.warn('Transition cue could not play.',e)}
-}
-function audioTick(idx,remaining){
-  const settings=state.audioSettings;
-  const threshold=Math.max(0,Number(settings.transitionMinutes||0))*60;
-  const inTransition=!!(settings.transitionEnabled&&threshold>0&&idx<state.schedule.length-1&&remaining>0&&remaining<=threshold);
-  if(!settings.enabled){lastAudioIndex=idx;lastAudioRemaining=remaining;lastInTransition=inTransition;return}
-  if(lastAudioIndex===null){lastAudioIndex=idx;lastAudioRemaining=remaining;lastInTransition=inTransition;return}
-  if(idx!==lastAudioIndex){
-    stopElement(musicAudio);beginActivityAudio(state.schedule[idx].title);
-    lastAudioIndex=idx;lastAudioRemaining=remaining;lastInTransition=inTransition;return;
-  }
-  // Fire exactly once when entering transition, including after manual time changes.
-  if(!state.paused&&inTransition&&!lastInTransition){
-    stopElement(musicAudio);stopBuiltInActivity();playTransitionCue(false);
-  }
-  if(state.paused&&!lastPaused&&musicAudio)musicAudio.pause();
-  if(!state.paused&&lastPaused&&musicAudio&&settings.autoPlayActivity&&!settings.muted&&(state.activityAudio[state.schedule[idx]?.title]?.musicEnabled===true))musicAudio.play().catch(()=>{});
-  lastPaused=state.paused;lastAudioRemaining=remaining;lastInTransition=inTransition;
-}
-function manualDeadlineMs(){
-  if(state.mode!=='manual'||state.paused||!state.manualStartedAt)return Infinity;
-  return new Date(state.manualStartedAt).getTime()+state.manualDurationSeconds*1000;
-}
-function scheduleManualAdvance(){
-  clearTimeout(manualAdvanceTimer);manualAdvanceTimer=null;
-  if(state.mode!=='manual'||state.paused||state.currentIndex>=state.schedule.length-1)return;
-  const delay=Math.max(0,manualDeadlineMs()-Date.now());
-  manualAdvanceTimer=setTimeout(()=>autoAdvanceManualIfNeeded(true),delay+5);
-}
-function autoAdvanceManualIfNeeded(force=false){
-  if(autoAdvanceBusy||state.mode!=='manual'||state.paused)return;
-  if(!force&&Date.now()<manualDeadlineMs())return;
-  if(state.currentIndex>=state.schedule.length-1)return;
-  autoAdvanceBusy=true;
-  const nextIndex=state.currentIndex+1;
-  startManual(nextIndex,C.durationForIndex(state,nextIndex));
-  broadcast();
-  beginActivityAudio(state.schedule[nextIndex].title);
-  setTimeout(()=>{autoAdvanceBusy=false;scheduleManualAdvance()},100);
-}
-function render(){
-  autoAdvanceManualIfNeeded();
-  const now=new Date(),idx=C.currentIndex(state,now),current=state.schedule[idx],next=state.schedule[Math.min(idx+1,state.schedule.length-1)],remaining=C.remainingSeconds(state,now);
-  $('modeText').textContent=state.mode==='manual'?'Manual Day':'Follow Schedule Real Time – Automatic';
-  $('modeNote').textContent=state.mode==='manual'?'You control when activities begin and how long they last.':'The display follows the computer clock and saved schedule times.';
-  $('currentText').textContent=current.title;$('nextText').textContent=next.title;
-  $('timerText').textContent=`${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')} remaining`;
-  $('pause').textContent=state.paused?'Resume':'Pause';$('connectionStatus').textContent=displayWindow&&!displayWindow.closed?'Display connected':'Display not opened';
-  $('startBeginning').classList.toggle('selected',state.mode==='manual');$('startBeginning').setAttribute('aria-pressed',state.mode==='manual');
-  $('followClock').classList.toggle('selected',state.mode==='clock');$('followClock').setAttribute('aria-pressed',state.mode==='clock');
-  $('pause').classList.toggle('selected',state.paused);$('pause').setAttribute('aria-pressed',state.paused);
-  $('enableAudio').classList.toggle('selected',!!state.audioSettings.enabled);$('enableAudio').setAttribute('aria-pressed',!!state.audioSettings.enabled);
-  const silenced=!!state.audioSettings.enabled&&!!state.audioSettings.muted;
-  $('silenceAudio').textContent=silenced?'Resume Audio':'Silence Audio Now';
-  $('silenceAudio').disabled=!state.audioSettings.enabled;
-  $('silenceAudio').classList.toggle('selected',silenced);$('silenceAudio').setAttribute('aria-pressed',silenced);
-  $('liveAudioNote').textContent=!state.audioSettings.enabled?'Classroom audio is off.':silenced?'Audio is silenced. Settings are saved; press Resume Audio to allow sound again.':'Classroom audio is on and ready.';
-  audioTick(idx,remaining);
-}
-function buildGroups(){
-  const currentTitle=state.schedule[C.currentIndex(state)]?.title||'Current Activity';
-  $('groupFields').innerHTML=state.groups.map((g,i)=>{const c=GROUP_COLORS[i];const assigned=(state.groupActivities?.[i]||currentTitle);return `<div class="group-editor"><div class="group-swatch" style="background:${c.bg};border:1px solid ${c.border}"></div>${state.groups.length>1?`<button class="group-delete" data-delete-group="${i}" title="Delete group">×</button>`:''}<div class="field"><label>Group ${i+1} name</label><input id="group${i}" value="${g.replace(/"/g,'&quot;')}"></div><div class="field"><label>Assigned Activity</label><input id="activity${i}" value="${assigned.replace(/"/g,'&quot;')}" placeholder="${currentTitle.replace(/"/g,'&quot;')}"><div class="small">Pre-filled from the current schedule. Edit this text to customize only this group, such as “Math Advanced.” Enter the current activity name again to return to automatic updates.</div></div><div class="field"><label>Assigned adult and place</label><input id="adult${i}" value="${(state.adults[i]||'').replace(/"/g,'&quot;')}"></div></div>`}).join('');
-  document.querySelectorAll('[data-delete-group]').forEach(b=>b.onclick=()=>{const i=+b.dataset.deleteGroup;state.groups.splice(i,1);state.adults.splice(i,1);state.groupActivities.splice(i,1);broadcast();buildGroups()});
-  $('addGroup').disabled=state.groups.length>=6;$('addGroup').textContent=state.groups.length>=6?'Maximum 6 Groups':'+ Add Group';
-}
-function buildSchedule(){
-  $('scheduleRows').innerHTML=state.schedule.map((item,i)=>`<div class="schedule-row"><input type="time" data-time="${i}" value="${item.time}"><input data-title="${i}" value="${item.title.replace(/"/g,'&quot;')}"><label class="btn" style="text-align:center">Upload<input hidden type="file" accept="image/*" data-picture="${i}"></label><button class="remove" data-remove="${i}">×</button></div>`).join('');
-  document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(state.schedule.length>1){state.schedule.splice(+b.dataset.remove,1);buildSchedule();buildLibrary();buildAudioLibrary()}});
-  document.querySelectorAll('[data-picture]').forEach(input=>input.onchange=async()=>{const file=input.files[0];if(file)state.pictures[state.schedule[+input.dataset.picture].title]=await C.fileToDataUrl(file)})
-}
-function buildLibrary(){
-  $('libraryGrid').innerHTML=uniqueActivities().map(item=>`<div class="lib-card"><div class="thumb">${state.pictures[item.title]?`<img src="${state.pictures[item.title]}" alt="">`:`${item.icon||'🖼️'}`}</div><div><strong>${item.title}</strong><div class="small">Used in today’s schedule</div></div><label class="btn">Replace<input hidden type="file" accept="image/*" data-lib="${encodeURIComponent(item.title)}"></label></div>`).join('');
-  document.querySelectorAll('[data-lib]').forEach(input=>input.onchange=async()=>{const file=input.files[0];if(file){state.pictures[decodeURIComponent(input.dataset.lib)]=await C.fileToDataUrl(file);broadcast();buildLibrary()}})
-}
-function renderAudioSettings(){
-  const a=state.audioSettings;
-  $('activityStartEnabled').checked=a.activityStartEnabled!==false;$('autoPlayActivity').checked=a.autoPlayActivity;$('loopActivity').checked=a.loopActivity;$('transitionEnabled').checked=a.transitionEnabled;
-  $('transitionMinutes').value=Number.isFinite(+a.transitionMinutes)?+a.transitionMinutes:3;$('transitionMessage').value=a.transitionMessage||'CLEAN UP AND MOVE';
-  $('musicVolume').value=a.musicVolume;$('cueVolume').value=a.cueVolume;$('transitionUrl').value=a.transitionUrl||'';
-  $('musicVolumeText').textContent=`${Math.round(a.musicVolume*100)}%`;$('cueVolumeText').textContent=`${Math.round(a.cueVolume*100)}%`;
-  $('enableAudio').textContent=a.enabled?'Turn Classroom Audio OFF':'Turn Classroom Audio ON';
-  const systemCard=$('audioSystemStatus');
-  systemCard.className='audio-status-card '+(a.enabled?(a.muted?'muted':'ready'):'off');
-  $('audioSystemValue').textContent=!a.enabled?'OFF':a.muted?'ON — SILENCED':'ON — READY';
-}
-function buildAudioLibrary(){
-  $('audioLibrary').innerHTML=uniqueActivities().map(item=>{const cfg=state.activityAudio[item.title]||{};const enabled=cfg.musicEnabled===true;return `<div class="audio-row"><div><strong>${item.title}</strong><div class="switch-row" style="border:0;padding:7px 0"><div><strong>Activity music ${enabled?'ON':'OFF'}</strong><div class="small">Controls background music for this activity only.</div></div><input type="checkbox" data-music-enabled="${encodeURIComponent(item.title)}" ${enabled?'checked':''}></div><div class="small">${cfg.fileName?`Uploaded: ${cfg.fileName}`:cfg.url?'Using direct link':'Using default activity music'}</div><input data-audio-url="${encodeURIComponent(item.title)}" value="${(cfg.url||'').replace(/"/g,'&quot;')}" placeholder="Optional direct .mp3 or .wav link" style="width:100%;margin-top:7px;padding:8px;border:1px solid var(--line);border-radius:8px"></div><div class="audio-actions"><label class="btn">Upload<input hidden type="file" accept="audio/*" data-audio-file="${encodeURIComponent(item.title)}"></label><button class="btn" data-preview-audio="${encodeURIComponent(item.title)}">Preview Music</button><button class="btn" data-clear-audio="${encodeURIComponent(item.title)}">Restore Default</button></div></div>`}).join('');
-  document.querySelectorAll('[data-music-enabled]').forEach(input=>input.onchange=()=>{const title=decodeURIComponent(input.dataset.musicEnabled);state.activityAudio[title]={...(state.activityAudio[title]||{}),musicEnabled:input.checked};if(!input.checked&&state.schedule[C.currentIndex(state)]?.title===title)stopElement(musicAudio);broadcast();buildAudioLibrary()});
-  document.querySelectorAll('[data-audio-file]').forEach(input=>input.onchange=async()=>{const title=decodeURIComponent(input.dataset.audioFile),file=input.files[0];if(!file)return;await C.saveAudioFile(activityFileKey(title),file);state.activityAudio[title]={...(state.activityAudio[title]||{}),fileName:file.name};broadcast();buildAudioLibrary()});
-  document.querySelectorAll('[data-audio-url]').forEach(input=>input.onchange=()=>{const title=decodeURIComponent(input.dataset.audioUrl);state.activityAudio[title]={...(state.activityAudio[title]||{}),url:input.value.trim()};broadcast();buildAudioLibrary()});
-  document.querySelectorAll('[data-preview-audio]').forEach(b=>b.onclick=async()=>{if(!state.audioSettings.enabled){alert('Turn Classroom Audio ON first, then press Preview Music.');return}if(state.audioSettings.muted){alert('Audio is currently silenced. Press Resume Audio first.');return}await playActivityAudio(decodeURIComponent(b.dataset.previewAudio),true);flashSuccess(b,'Music Playing')});
-  document.querySelectorAll('[data-clear-audio]').forEach(b=>b.onclick=async()=>{const title=decodeURIComponent(b.dataset.clearAudio);await C.deleteAudioFile(activityFileKey(title)).catch(()=>{});delete state.activityAudio[title];broadcast();buildAudioLibrary()});
-}
-
-
-
-const WEEKDAYS=['Monday','Tuesday','Wednesday','Thursday','Friday'];
-function cloneJson(value){return JSON.parse(JSON.stringify(value))}
-function todayName(){return new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(new Date())}
-function templateSnapshot(){
-  return {schedule:cloneJson(state.schedule),groups:cloneJson(state.groups),adults:cloneJson(state.adults),groupActivities:cloneJson(state.groupActivities),savedAt:new Date().toISOString()};
-}
-function applyTemplate(template,day){
-  if(!template||!Array.isArray(template.schedule)||!template.schedule.length)return false;
-  state.schedule=cloneJson(template.schedule);
-  state.groups=cloneJson(template.groups||state.groups);
-  state.adults=cloneJson(template.adults||state.adults);
-  state.groupActivities=cloneJson(template.groupActivities||Array(state.groups.length).fill(null));
-  state.loadedTemplateDay=day;
-  state.mode='clock';state.paused=false;state.pausedRemainingSeconds=null;
-  broadcast();buildGroups();buildSchedule();buildLibrary();buildAudioLibrary();buildWeekly();
-  return true;
-}
-function saveTemplate(day){state.weeklySchedules[day]=templateSnapshot();state.loadedTemplateDay=day;broadcast();buildWeekly()}
-function buildWeekly(){
-  const today=todayName();
-  $('weeklyHeading').textContent=`Today is ${today}`;
-  $('loadTodayTemplate').disabled=!WEEKDAYS.includes(today)||!state.weeklySchedules[today];
-  $('saveCurrentToToday').disabled=!WEEKDAYS.includes(today);
-  $('weeklyNotice').textContent=state.loadedTemplateDay?`Working schedule loaded from ${state.loadedTemplateDay}. Changes remain today-only until you explicitly save a weekday template.`:'No weekday template is currently loaded. The current schedule is a working schedule.';
-  $('weeklyGrid').innerHTML=WEEKDAYS.map(day=>{
-    const tpl=state.weeklySchedules[day];
-    const count=tpl?.schedule?.length||0;
-    const saved=tpl?.savedAt?new Date(tpl.savedAt).toLocaleString():'Not saved yet';
-    const options=WEEKDAYS.filter(d=>d!==day).map(d=>`<option value="${d}">${d}</option>`).join('');
-    return `<div class="weekly-card ${day===today?'today':''} ${state.loadedTemplateDay===day?'loaded':''}"><div class="weekly-title"><span>${day}</span>${day===today?'<span class="small">TODAY</span>':''}</div><div class="weekly-meta">${tpl?`${count} activities • Saved ${saved}`:'No saved template'}</div><div class="weekly-actions"><button class="btn" data-load-day="${day}" ${tpl?'':'disabled'}>Load</button><button class="btn primary" data-save-day="${day}">Save Current to ${day}</button><button class="btn danger" data-clear-day="${day}" ${tpl?'':'disabled'}>Clear</button></div><div class="copy-row"><select data-copy-target="${day}">${options}</select><button class="btn" data-copy-day="${day}" ${tpl?'':'disabled'}>Copy to…</button></div></div>`;
-  }).join('');
-  document.querySelectorAll('[data-load-day]').forEach(b=>b.onclick=()=>{const day=b.dataset.loadDay;if(applyTemplate(state.weeklySchedules[day],day))flashSuccess(b,`${day} Loaded`)});
-  document.querySelectorAll('[data-save-day]').forEach(b=>b.onclick=()=>{const day=b.dataset.saveDay;saveTemplate(day);flashSuccess(b,`${day} Saved`)});
-  document.querySelectorAll('[data-clear-day]').forEach(b=>b.onclick=()=>{const day=b.dataset.clearDay;if(confirm(`Clear the saved ${day} schedule?`)){delete state.weeklySchedules[day];if(state.loadedTemplateDay===day)state.loadedTemplateDay=null;broadcast();buildWeekly()}});
-  document.querySelectorAll('[data-copy-day]').forEach(b=>b.onclick=()=>{const from=b.dataset.copyDay;const target=document.querySelector(`[data-copy-target="${from}"]`).value;if(!state.weeklySchedules[from])return;state.weeklySchedules[target]=cloneJson(state.weeklySchedules[from]);state.weeklySchedules[target].savedAt=new Date().toISOString();broadcast();buildWeekly();flashSuccess(b,`Copied to ${target}`)});
-}
-
-// Professional interaction feedback: brief pressed state plus explicit success confirmation.
-const originalLabels=new WeakMap();
-function flashSuccess(control,message){
-  if(!control)return;
-  if(!originalLabels.has(control))originalLabels.set(control,control.textContent);
-  clearTimeout(control._successTimer);
-  control.classList.remove('ack');
-  control.classList.add('success');
-  control.textContent=`✓ ${message}`;
-  control._successTimer=setTimeout(()=>{
-    control.classList.remove('success');
-    control.textContent=originalLabels.get(control)||control.textContent;
-    originalLabels.delete(control);
-  },1500);
-}
-document.addEventListener('click',e=>{
-  const control=e.target.closest('.btn,.tab');
-  if(!control || control.disabled) return;
-  control.classList.remove('ack');
-  void control.offsetWidth;
-  control.classList.add('ack');
-  setTimeout(()=>control.classList.remove('ack'),180);
-});
-
-document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===t.dataset.panel))});
-$('openDisplay').onclick=()=>{const displayUrl=new URL('/display/',window.location.origin).href;displayWindow=window.open(displayUrl,'classroomDisplay');if(!displayWindow){window.location.href=displayUrl;return;}setTimeout(broadcast,500);render();flashSuccess($('openDisplay'),'Display Opened')};
-$('startBeginning').onclick=()=>{startManual(0,C.durationForIndex(state,0));broadcast();beginActivityAudio(state.schedule[0].title);flashSuccess($('startBeginning'),'Manual Day Started')};
-$('followClock').onclick=()=>{state.mode='clock';state.paused=false;state.pausedRemainingSeconds=null;broadcast();beginActivityAudio(state.schedule[C.currentIndex(state)].title);flashSuccess($('followClock'),'Automatic Mode On')};
-$('pause').onclick=()=>{if(state.mode!=='manual')startManual(C.currentIndex(state),C.remainingSeconds(state));if(state.paused){state.paused=false;state.manualStartedAt=new Date(Date.now()-(state.manualDurationSeconds-state.pausedRemainingSeconds)*1000).toISOString();state.pausedRemainingSeconds=null}else{state.pausedRemainingSeconds=C.remainingSeconds(state);state.paused=true}broadcast()};
-function adjust(seconds){if(state.mode!=='manual')startManual(C.currentIndex(state),C.remainingSeconds(state));const remain=C.remainingSeconds(state)+seconds;state.manualDurationSeconds=Math.max(60,remain);state.manualStartedAt=new Date().toISOString();state.paused=false;state.pausedRemainingSeconds=null;broadcast()}
-$('minus').onclick=()=>{adjust(-60);flashSuccess($('minus'),'1 Minute Removed')};$('plus').onclick=()=>{adjust(60);flashSuccess($('plus'),'1 Minute Added')};$('setTime').onclick=()=>{adjust(Number($('setMinutes').value)*60-C.remainingSeconds(state));flashSuccess($('setTime'),'Time Updated')};
-$('next').onclick=()=>{const newIndex=Math.min(C.currentIndex(state)+1,state.schedule.length-1);startManual(newIndex);broadcast();beginActivityAudio(state.schedule[newIndex].title);flashSuccess($('next'),'Next Activity Started')};$('skip').onclick=()=>{const newIndex=Math.min(C.currentIndex(state)+1,state.schedule.length-1);startManual(newIndex);broadcast();beginActivityAudio(state.schedule[newIndex].title);flashSuccess($('skip'),'Activity Skipped')};
-$('addGroup').onclick=()=>{if(state.groups.length>=6)return;const n=state.groups.length+1;state.groups.push(`Group ${n}`);state.adults.push(`Staff at Station ${n}`);state.groupActivities.push(null);broadcast();buildGroups();flashSuccess($('addGroup'),'Group Added')};
-$('saveGroups').onclick=()=>{const currentTitle=state.schedule[C.currentIndex(state)]?.title||'';state.groups=state.groups.map((_,i)=>$(`group${i}`).value.trim()||`Group ${i+1}`);state.adults=state.adults.map((_,i)=>$(`adult${i}`).value.trim()||`Staff at Station ${i+1}`);state.groupActivities=state.groups.map((_,i)=>{const value=$(`activity${i}`).value.trim();return !value||value===currentTitle?null:value});broadcast();buildGroups();flashSuccess($('saveGroups'),'Display Updated')};
-$('addRow').onclick=()=>{state.schedule.push({time:'15:15',title:'New Activity',icon:'🖼️'});buildSchedule();flashSuccess($('addRow'),'Activity Added')};
-$('saveSchedule').onclick=async()=>{const old=state.schedule.map(x=>x.title);document.querySelectorAll('[data-time]').forEach(i=>state.schedule[+i.dataset.time].time=i.value);document.querySelectorAll('[data-title]').forEach(i=>state.schedule[+i.dataset.title].title=i.value.trim()||'Activity');state.schedule.forEach((item,i)=>{if(old[i]!==item.title&&state.activityAudio[old[i]]&&!state.activityAudio[item.title]){state.activityAudio[item.title]=state.activityAudio[old[i]]}});state.schedule.sort((a,b)=>C.minutesFromTime(a.time)-C.minutesFromTime(b.time));broadcast();buildSchedule();buildLibrary();buildAudioLibrary();flashSuccess($('saveSchedule'),'Schedule Saved')};
-
-$('loadTodayTemplate').onclick=()=>{const day=todayName();if(state.weeklySchedules[day]&&applyTemplate(state.weeklySchedules[day],day))flashSuccess($('loadTodayTemplate'),`${day} Loaded`)};
-$('saveCurrentToToday').onclick=()=>{const day=todayName();if(WEEKDAYS.includes(day)){saveTemplate(day);flashSuccess($('saveCurrentToToday'),`${day} Saved`)}};
-
-$('enableAudio').onclick=async()=>{try{if(state.audioSettings.enabled){stopAllAudio();state.audioSettings.enabled=false;state.audioSettings.muted=true;broadcast();renderAudioSettings();render();flashSuccess($('enableAudio'),'Classroom Audio Off');return}if(!audioContext)audioContext=new (window.AudioContext||window.webkitAudioContext)();await audioContext.resume();state.audioSettings.enabled=true;state.audioSettings.muted=false;broadcast();renderAudioSettings();render();flashSuccess($('enableAudio'),'Classroom Audio On')}catch(e){alert('This browser did not allow audio. Try Chrome or Edge and turn Classroom Audio ON again.')}};
-$('silenceAudio').onclick=()=>{if(!state.audioSettings.enabled)return;state.audioSettings.muted=!state.audioSettings.muted;if(state.audioSettings.muted)stopAllAudio();setAudioVolumes();broadcast();renderAudioSettings();render();flashSuccess($('silenceAudio'),state.audioSettings.muted?'Audio Silenced':'Audio Resumed')};
-$('stopAudio').onclick=()=>{stopAllAudio();flashSuccess($('stopAudio'),'Audio Stopped')};
-$('stopAudioLive').onclick=()=>{stopAllAudio();flashSuccess($('stopAudioLive'),'Audio Stopped')};
-for(const id of ['activityStartEnabled','autoPlayActivity','loopActivity','transitionEnabled'])$(id).onchange=()=>{state.audioSettings[id]=$(id).checked;if(id==='loopActivity'&&musicAudio)musicAudio.loop=$(id).checked;broadcast();renderAudioSettings()};
-$('transitionMinutes').onchange=()=>{state.audioSettings.transitionMinutes=Math.max(0,Math.min(15,Number($('transitionMinutes').value)||0));broadcast();renderAudioSettings();flashSuccess($('transitionMinutes'),'Transition Updated')};
-$('transitionMessage').onchange=()=>{state.audioSettings.transitionMessage=$('transitionMessage').value.trim()||'CLEAN UP AND MOVE';broadcast();renderAudioSettings()};
-$('musicVolume').oninput=()=>{state.audioSettings.musicVolume=+$('musicVolume').value;setAudioVolumes();broadcast();renderAudioSettings()};
-$('cueVolume').oninput=()=>{state.audioSettings.cueVolume=+$('cueVolume').value;setAudioVolumes();broadcast();renderAudioSettings()};
-$('transitionUrl').onchange=()=>{state.audioSettings.transitionUrl=$('transitionUrl').value.trim();broadcast()};
-$('transitionFile').onchange=async()=>{const file=$('transitionFile').files[0];if(!file)return;await C.saveAudioFile(transitionFileKey,file);state.audioSettings.transitionFileName=file.name;broadcast();alert(`Transition sound saved: ${file.name}`)};
-$('previewStartCue').onclick=()=>{playActivityStartCue('Preview');flashSuccess($('previewStartCue'),'Start Cue Played')};
-$('previewCue').onclick=()=>{playTransitionCue(true);flashSuccess($('previewCue'),'Transition Cue Played')};
-$('clearCue').onclick=async()=>{await C.deleteAudioFile(transitionFileKey).catch(()=>{});state.audioSettings.transitionUrl='';state.audioSettings.transitionFileName='';broadcast();renderAudioSettings();flashSuccess($('clearCue'),'Default Sound Restored')};
-
-buildGroups();buildSchedule();buildWeekly();buildLibrary();buildAudioLibrary();renderAudioSettings();scheduleManualAdvance();render();setInterval(render,200);</script></body></html>
+    <p class="note"><strong>Recommended:</strong> Open Teacher Control first and use its “Open Classroom Display” button so both pages connect automatically in the same browser.</p>
+  </main>
+</body>
+</html>
