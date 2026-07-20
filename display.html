@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classroom Display</title>
+<style>
+:root{--bg:#f3f6f8;--panel:#fff;--text:#1f2937;--muted:#667085;--line:#d8dee8;--accent:#3567d6;--accent-soft:#e8efff;--success:#2f855a;--shadow:0 8px 24px rgba(31,41,55,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}.screen{height:100dvh;width:100%;padding:7px 10px;display:grid;grid-template-rows:7fr 42fr 13fr 26fr 12fr;gap:6px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);min-width:0;min-height:0}.header{display:flex;align-items:center;justify-content:space-between;padding:4px 14px}.date{font-size:clamp(.95rem,2.2vh,1.35rem);font-weight:850}.clock{font-size:clamp(1.1rem,2.8vh,1.7rem);font-weight:950}.row{display:grid;grid-template-columns:2fr 1fr;overflow:hidden}.now-row{background:#ffffff;border-color:#d8dee8}.now-row .copy{background:#ffffff}.now-row .picture{background:#ffffff}.next-row{background:#eaf3ff;border-color:#bfd5f3}.next-row .copy{background:#eaf3ff}.next-row .picture{background:#eaf3ff}.copy{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5px 12px;overflow:hidden}.eyebrow{font-size:clamp(1.15rem,3vh,1.8rem);font-weight:950;letter-spacing:.12em;color:var(--accent)}.title{font-size:clamp(1.85rem,6.2vh,4.25rem);line-height:.95;margin:3px 0 4px;font-weight:950;text-transform:uppercase;overflow-wrap:anywhere}.timer{font-size:clamp(2.3rem,7.5vh,5rem);line-height:.9;font-weight:950;font-variant-numeric:tabular-nums}.timer-label{font-size:clamp(.68rem,1.55vh,.9rem);color:var(--muted);font-weight:800}.bar-wrap{width:min(540px,90%);margin-top:5px}.bar{height:clamp(16px,2.8vh,26px);border:2px solid #344054;border-radius:999px;overflow:hidden;background:#e7ebf0}.bar-fill{height:100%;width:0;background:#2f6fda;transition:width .5s linear,background-color .2s ease}.time-warning{display:none;margin-top:4px;padding:2px 10px;border:2px solid #b42318;border-radius:999px;background:#fff4f2;color:#b42318;font-size:clamp(.64rem,1.35vh,.82rem);font-weight:950;letter-spacing:.05em}.time-warning.show{display:inline-block}.bar-labels{display:flex;justify-content:space-between;font-size:clamp(.52rem,1.2vh,.7rem);color:var(--muted);font-weight:850}.picture{background:var(--accent-soft);display:grid;place-items:center;overflow:hidden;border-left:1px solid var(--line)}.picture img{width:100%;height:100%;object-fit:cover}.picture-fallback{display:grid;place-items:center;text-align:center;font-weight:900;color:var(--accent);padding:5px}.picture-fallback .icon{font-size:clamp(2.4rem,10vh,6.5rem);line-height:1}.groups{display:grid;gap:7px}.group{padding:5px 8px;border:1px solid #d7dee8;border-top:8px solid var(--group-accent);background:var(--group-tint);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;box-shadow:0 3px 10px rgba(31,41,55,.05)}.group-name{font-size:clamp(.9rem,2.4vh,1.45rem);font-weight:950}.group-activity{font-size:clamp(.9rem,2.35vh,1.45rem);font-weight:900;margin-top:1px;overflow-wrap:anywhere}.group-adult{font-size:clamp(.72rem,1.8vh,1.05rem);font-weight:800;margin-top:3px}.next-title{font-size:clamp(1.8rem,5.2vh,3.5rem);line-height:1;font-weight:950;text-transform:uppercase;overflow-wrap:anywhere}.next-row .eyebrow{color:#3567d6}.next-time{margin-top:4px;color:var(--muted);font-size:clamp(.72rem,1.65vh,1rem);font-weight:750}.progress{padding:4px 6px;overflow:hidden}.strip{height:100%;display:grid;grid-template-columns:repeat(17,minmax(0,1fr));gap:3px}.step{min-width:0;padding:2px;border:1px solid var(--line);border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;color:var(--muted);font-weight:850}.step.completed{background:#e8f5ec;color:var(--success);border-color:#b9dfc5}.step.current{background:var(--accent);color:#fff;border-color:var(--accent)}.step-picture{width:clamp(20px,3.1vh,32px);height:clamp(20px,3.1vh,32px);border-radius:5px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.8);font-size:clamp(.9rem,2.3vh,1.35rem)}.step-picture img{width:100%;height:100%;object-fit:cover}.step-label{font-size:clamp(.42rem,.92vh,.61rem);line-height:1.02;max-height:2.05em;overflow:hidden;overflow-wrap:anywhere}.connection{position:fixed;right:10px;top:10px;width:10px;height:10px;border-radius:50%;background:#2f855a;box-shadow:0 0 0 3px rgba(47,133,90,.15)}
+</style>
+</head><body>
+<div class="connection" title="Teacher control connection ready"></div>
+<main class="screen">
+<section class="card header"><div class="date" id="date"></div><div class="clock" id="clock"></div></section>
+<section class="card row now-row"><div class="copy"><div class="eyebrow">NOW</div><div class="title" id="nowTitle"></div><div class="timer" id="timer"></div><div class="timer-label">TIME LEFT</div><div class="time-warning" id="timeWarning">3 MINUTES OR LESS</div><div class="bar-wrap"><div class="bar"><div class="bar-fill" id="barFill"></div></div><div class="bar-labels"><span>START</span><span>FINISH</span></div></div></div><div class="picture" id="nowPicture"></div></section>
+<section class="groups" id="groups"></section>
+<section class="card row next-row"><div class="copy"><div class="eyebrow">NEXT</div><div class="next-title" id="nextTitle"></div><div class="next-time" id="nextTime"></div></div><div class="picture" id="nextPicture"></div></section>
+<section class="card progress"><div class="strip" id="strip"></div></section>
+</main>
+<script src="app-core.js"></script><script>
+const C=window.ClassScheduleCore;let state=C.loadState();
+let channel=null;try{channel=new BroadcastChannel(C.CHANNEL_NAME);channel.onmessage=e=>{if(e.data?.type==='state'){state=e.data.state;C.saveState(state);render()}}}catch(e){}
+window.addEventListener('storage',e=>{if(e.key===C.STORAGE_KEY){state=C.loadState();render()}});
+window.addEventListener('message',e=>{if(e.data?.type==='class-schedule-state'){state=e.data.state;C.saveState(state);render()}});
+function el(id){return document.getElementById(id)}
+const GROUP_COLORS=[
+  {tint:'#f4f8fd',accent:'#4f86c6'},
+  {tint:'#fdf5f5',accent:'#c96b6b'},
+  {tint:'#fffaf0',accent:'#d6a733'},
+  {tint:'#f3faf5',accent:'#5f9d70'},
+  {tint:'#f8f4fb',accent:'#8a6fb3'},
+  {tint:'#fff7f0',accent:'#c8834f'}
+];
+function render(){
+  const now=new Date(),idx=C.currentIndex(state,now),current=state.schedule[idx],next=state.schedule[Math.min(idx+1,state.schedule.length-1)],remaining=C.remainingSeconds(state,now),total=C.totalSeconds(state);
+  const transitionMinutes=Math.max(0,Number(state.audioSettings?.transitionMinutes||0));
+  const inTransition=transitionMinutes>0&&idx<state.schedule.length-1&&remaining>0&&remaining<=transitionMinutes*60;
+  const transitionTitle=(state.audioSettings?.transitionMessage||'CLEAN UP AND MOVE').toUpperCase();
+  el('date').textContent=now.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  el('clock').textContent=now.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+  el('nowTitle').textContent=inTransition?transitionTitle:current.title;el('nextTitle').textContent=next.title;
+  el('nextTime').textContent=idx===state.schedule.length-1?'End of day':state.mode==='manual'?'Starts automatically when the timer ends':`Begins at ${C.format12(next.time)}`;
+  el('nowPicture').innerHTML=inTransition?'<div class="picture-fallback"><div class="icon">🧹</div><div>Transition</div></div>':C.pictureHtml(state,current);el('nextPicture').innerHTML=C.pictureHtml(state,next);
+  const groupCount=Math.max(1,Math.min(6,state.groups.length));
+  el('groups').style.gridTemplateColumns=`repeat(${groupCount},minmax(0,1fr))`;
+  el('groups').innerHTML=state.groups.slice(0,6).map((name,i)=>{const c=GROUP_COLORS[i];const assignedActivity=inTransition?'Transition':((state.groupActivities&&state.groupActivities[i])||current.title);return `<div class="card group" style="--group-tint:${c.tint};--group-accent:${c.accent}"><div class="group-name">${name}</div><div class="group-activity">${assignedActivity}</div><div class="group-adult">${state.adults[i]||''}</div></div>`}).join('');
+  const mm=Math.floor(remaining/60),ss=remaining%60;el('timer').textContent=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+  const elapsedPercent=Math.max(0,Math.min(100,((total-remaining)/Math.max(1,total))*100));
+  const warning=inTransition;
+  el('barFill').style.width=`${elapsedPercent}%`;
+  el('barFill').style.background=warning?'#c94040':'#2f6fda';
+  el('timeWarning').textContent=warning?`${transitionMinutes} MINUTE${transitionMinutes===1?'':'S'} TO TRANSITION`:'';el('timeWarning').classList.toggle('show',warning);
+  el('timer').style.color=warning?'#b42318':'#1f2937';
+  el('strip').innerHTML=state.schedule.map((item,i)=>`<div class="step ${i<idx?'completed':i===idx?'current':''}"><div class="step-picture">${C.pictureHtml(state,item,true)}</div><div class="step-label">${i<idx?'✓ ':i===idx?'● ':''}${item.title}</div></div>`).join('');
+}
+render();setInterval(render,200);
+</script></body></html>
