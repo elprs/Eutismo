@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f4f78" />
+  <title>Classroom Schedule</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #17324d;
+      background: #f5f8fb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    main {
+      width: min(900px, 100%);
+      background: #fff;
+      border: 1px solid #d7e1ea;
+      border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(35, 67, 96, .12);
+      padding: clamp(28px, 5vw, 52px);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #54718d;
+    }
+    h1 { margin: 0; font-size: clamp(2rem, 6vw, 4rem); line-height: 1; }
+    .intro { max-width: 680px; font-size: 1.1rem; line-height: 1.6; color: #425d76; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 34px; }
+    .card {
+      border: 1px solid #cbd9e5;
+      border-radius: 18px;
+      padding: 24px;
+      background: #fafdff;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.45rem; }
+    .card p { min-height: 72px; margin: 0 0 20px; line-height: 1.55; color: #4b657c; }
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      border-radius: 12px;
+      border: 2px solid #306a98;
+      background: #eaf4fc;
+      color: #163c5d;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .12s ease, background .12s ease;
+    }
+    a.button:hover { background: #dceefa; }
+    a.button:active { transform: translateY(2px); background: #c9e3f6; }
+    a.button:focus-visible { outline: 4px solid #f0b84a; outline-offset: 3px; }
+    .note {
+      margin: 28px 0 0;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #eef5fb;
+      color: #425d76;
+      line-height: 1.5;
+    }
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; }
+      .card p { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Classroom Pilot</p>
+    <h1>Visual Classroom Schedule</h1>
+    <p class="intro">Open the teacher controls on the instructor device, then launch the classroom display on the smartboard, projector, or second screen.</p>
+
+    <section class="grid" aria-label="Application pages">
+      <article class="card">
+        <h2>Teacher Control</h2>
+        <p>Edit schedules, groups, pictures, timing, audio, and weekly templates.</p>
+        <a class="button" href="teacher.html">Open Teacher Control</a>
+      </article>
+      <article class="card">
+        <h2>Classroom Display</h2>
+        <p>Student-facing NOW, groups, NEXT, timer, pictures, and daily schedule.</p>
+        <a class="button" href="display.html">Open Classroom Display</a>
+      </article>
+    </section>
+
+    <p class="note"><strong>Recommended:</strong> Open Teacher Control first and use its “Open Classroom Display” button so both pages connect automatically in the same browser.</p>
+  </main>
+</body>
+</html>
