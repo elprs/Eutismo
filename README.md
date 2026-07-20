@@ -1,21 +1,27 @@
-# Classroom Schedule Pilot — Static Vercel Deployment
+# Classroom Schedule — Vercel Static Deployment
 
-This repository is a static website. Keep all files in the repository root.
+Upload the CONTENTS of this folder to the root of the GitHub repository. Keep the `teacher` and `display` folders intact.
 
-## Files
-- `index.html` — landing page
-- `teacher.html` — teacher controls
-- `display.html` — classroom display
+Expected repository structure:
 
-## Vercel
-1. Import the GitHub repository into Vercel.
-2. Framework preset: **Other**.
-3. Build command: leave empty.
-4. Output directory: leave empty.
-5. Deploy.
+```
+index.html
+vercel.json
+teacher/
+  index.html
+display/
+  index.html
+AUDIO_ASSET_POLICY.md
+README.md
+```
 
-Use these direct URLs:
-- `/teacher.html`
-- `/display.html`
+In Vercel:
+- Framework Preset: Other
+- Root Directory: repository root (`.`)
+- Build Command: leave empty
+- Output Directory: leave empty
 
-No rewrites or clean URLs are required.
+Routes:
+- `/`
+- `/teacher/`
+- `/display/`
